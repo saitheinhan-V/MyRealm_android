@@ -1,0 +1,66 @@
+plugins {
+    id 'com.android.application'
+}
+
+apply plugin: 'realm-android'
+
+android {
+    namespace 'com.example.myrealm'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.example.myrealm"
+        minSdk 23
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    realm{
+        syncEnabled = true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.google.code.gson:gson:2.8.9'
+
+    // PictureSelector basic (Necessary)
+    implementation 'io.github.lucksiege:pictureselector:v3.11.1'
+
+    // image compress library (Not necessary)
+    implementation 'io.github.lucksiege:compress:v3.11.1'
+
+    // uCrop library (Not necessary)
+    implementation 'io.github.lucksiege:ucrop:v3.11.1'
+
+    // simple camerax library (Not necessary)
+    implementation 'io.github.lucksiege:camerax:v3.11.1'
+
+//    implementation 'com.github.yanzhenjie:AndPermission:2.0.0-rc12'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+}

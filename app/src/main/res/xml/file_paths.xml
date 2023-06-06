@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path name="banner" path="/" />
+
+<!--    <root-path name="root" path="/" />-->
+
+<!--    <files-path name="files" path="mytempfiles" />-->
+
+<!--    <cache-path name="cache" path="mytempcache" />-->
+
+    <external-path name="storage/emulated/0/" path="/" />
+
+    <external-files-path name="external_file_path" path="/" />
+
+    <external-cache-path name="storage/emulated/0/Android/data/com.example.myrealm/cache" path="/" />
+<!--    <external-files-path-->
+<!--        name="images"-->
+<!--        path="Pictures" />-->
+</paths>
