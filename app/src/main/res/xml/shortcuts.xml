@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:targetApi="25">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_link"
+        android:shortcutId="imageShortcut"
+        android:shortcutLongLabel="@string/open_link"
+        android:shortcutShortLabel="@string/open_link">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.example.myrealm.ImageActivity"
+            android:targetPackage="com.example.myrealm">
+            <extra
+                android:name="key"
+                android:value="test"/>
+        </intent>
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+</shortcuts>

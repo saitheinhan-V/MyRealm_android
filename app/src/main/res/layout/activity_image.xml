@@ -29,4 +29,26 @@
         android:text="Gallery"
         />
 
+    <Button
+        android:id="@+id/btnAddShortcut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Shortcut"
+        />
+
+    <Button
+        android:id="@+id/btnRemoveShortcut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove Shortcut"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        />
+
 </LinearLayout>

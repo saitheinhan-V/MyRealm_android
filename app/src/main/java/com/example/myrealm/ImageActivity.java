@@ -11,18 +11,23 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +42,7 @@ import com.yalantis.ucrop.UCropImageEngine;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ImageActivity extends AppCompatActivity {
@@ -44,6 +50,10 @@ public class ImageActivity extends AppCompatActivity {
     private Button btnCamera;
     private Button btnGallery;
     private ImageView ivImage;
+
+    private TextView textView;
+
+    private Button btnAddShortcut, btnRemoveShortcut;
 
     private static final int CAMERA_REQUEST = 1;
     private static final int PICK_REQUEST = 2;
@@ -56,6 +66,14 @@ public class ImageActivity extends AppCompatActivity {
         ivImage = findViewById(R.id.ivImage);
         btnCamera = findViewById(R.id.btnCamera);
         btnGallery = findViewById(R.id.btnGallery);
+        textView = findViewById(R.id.textView);
+        btnAddShortcut = findViewById(R.id.btnAddShortcut);
+        btnRemoveShortcut = findViewById(R.id.btnRemoveShortcut);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            textView.setText(bundle.getString("key"));
+        }
 
         btnCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +98,59 @@ public class ImageActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnAddShortcut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //create dynamic shortcut
+                if (Build.VERSION.SDK_INT >= 25)
+                    createURL();
+            }
+        });
+
+        btnRemoveShortcut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //remove dynamic shortcut
+                if (Build.VERSION.SDK_INT >= 25)
+                    removeShortcut();
+            }
+        });
+    }
+
+    @TargetApi(25)
+    private void removeShortcut() {
+        ShortcutManager manager = getSystemService(ShortcutManager.class);
+
+//        if (manager != null) manager.removeAllDynamicShortcuts();
+//        manager.disableShortcuts(Arrays.asList("openGoogle"));
+        manager.removeDynamicShortcuts(Arrays.asList("openGoogle"));
+    }
+
+    @TargetApi(25)
+    private void createURL() {
+        ShortcutManager manager = getSystemService(ShortcutManager.class);
+
+        Intent intent = new Intent(getApplicationContext(), AddCourseActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
+
+        ShortcutInfo s1 = new ShortcutInfo.Builder(this, "addCourse")
+                .setIntent(intent)
+                .setShortLabel(getString(R.string.add_course))
+                .setLongLabel(getString(R.string.add_course))
+                .setShortLabel("This is shortcut one")
+                .setDisabledMessage("Login to open this")
+                .setIcon(Icon.createWithResource(this, R.drawable.ic_add_course))
+                .build();
+
+        ShortcutInfo s2 = new ShortcutInfo.Builder(this, "openGoogle")
+                .setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com")))
+                .setShortLabel(getString(R.string.open_google))
+                .setLongLabel("Open Google Dynamic")
+                .setIcon(Icon.createWithResource(this, R.drawable.ic_open_google))
+                .build();
+
+        manager.setDynamicShortcuts(Arrays.asList(s1, s2));
     }
 
     @Override
@@ -245,16 +316,16 @@ public class ImageActivity extends AppCompatActivity {
 
                             Uri destinationUri = getImageUri(file, false);
 
-                            if(originUri == null || destinationUri == null) return;
+                            if (originUri == null || destinationUri == null) return;
 
                             UCrop.Options options = new UCrop.Options();
                             options.setToolbarTitle("Crop Camera UI");
                             options.setHideBottomControls(false);
-                            UCrop.of(originUri,destinationUri)
-                                    .withMaxResultSize(1080,800)
-                                    .withAspectRatio(16,12)
+                            UCrop.of(originUri, destinationUri)
+                                    .withMaxResultSize(1080, 800)
+                                    .withAspectRatio(16, 12)
                                     .withOptions(options)
-                                    .start(ImageActivity.this,CAMERA_REQUEST);
+                                    .start(ImageActivity.this, CAMERA_REQUEST);
                         }
                     }
 
@@ -270,7 +341,7 @@ public class ImageActivity extends AppCompatActivity {
         String authority = BuildConfig.APPLICATION_ID;
 
         if (isOrigin) {
-            if(imgFile != null){
+            if (imgFile != null) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     destinationUri = WonderfulFileUtils.getUriForFile(ImageActivity.this, imgFile);
