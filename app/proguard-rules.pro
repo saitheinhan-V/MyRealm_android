@@ -28,3 +28,6 @@
 -dontwarn com.yalantis.ucrop**
 -keep class com.yalantis.ucrop** { *; }
 -keep interface com.yalantis.ucrop** { *; }
+
+#agora
+-keep class io.agora.**{*;}
